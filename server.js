@@ -31,6 +31,26 @@ app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "home.html"));
 });
 
+//Display reservation page
+//=======================================================================
+app.get("/reserve", function (req, res) {
+    res.sendFile(path.join(__dirname, "reserve.html"));
+});
+
+//View single reservation
+//=======================================================================
+app.get("/api/tables/:reservation", function (req, res) {
+    var chosen = req.params.reservation;
+    console.log(chosen)
+
+    for (var i = 0; i < reservations.length; i++) {
+        if (chosen === characters[i].name) {
+            return res.json(reservations[i]);
+        }
+    }
+    return res.json(false);
+});
+
 //Display all Reservations
 //=======================================================================
 app.get("/api/tables", function (req, res) {
