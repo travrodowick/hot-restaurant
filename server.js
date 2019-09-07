@@ -71,7 +71,8 @@ app.post("/api/reserve", function (req, res) {
     var newReservation = req.body;
     newReservation.name = newReservation.name.replace(/\s+/g, "").toLowerCase();
     console.log(newReservation);
-    if (reservations.length = 5) {
+
+    if (reservations.length >= 5) {
         app.post("/api/reserve", function (req, res) {
             var newEntry = req.body;
             newEntry.name = newEntry.name.replace(/\s+/g, "").toLowerCase();
@@ -82,9 +83,9 @@ app.post("/api/reserve", function (req, res) {
     else {
         reservations.push(newReservation);
     }
-    // reservations.push(newReservation);
-    res.json(newReservation, newEntry);
 });
+
+res.json(newReservation, newEntry);
 
 //Listening
 //=======================================================================
