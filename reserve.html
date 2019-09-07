@@ -18,11 +18,13 @@
     <div class="jumbotron">
         <div class="text-center">
             <h1>Mans Not Hot</h1>
+            <hr>
+            <h2>Make ya reservation</h2>
         </div>
         <div class="text-center">
             <a href="tables.html">
                 <button type="button" class="btn btn-primary btn-lg">
-                    <i class="fas fa-bars"></i>
+                    <i class="far fa-calendar"></i>
                     View Tables</button>
             </a>
 
@@ -45,21 +47,46 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Phone Number</label>
-                        <input type="number" class="form-control" id="reserve_name">
+                        <input type="number" class="form-control" id="reserve_phone">
                     </div>
                     <div class="form-group">
                         <label for="name">Email</label>
-                        <input type="email" class="form-control" id="reserve_name">
+                        <input type="email" class="form-control" id="reserve_email">
                     </div>
                     <div class="form-group">
                         <label for="name">Unique ID</label>
-                        <input type="text" class="form-control" id="reserve_name">
+                        <input type="text" class="form-control" id="reserve_ID">
                     </div>
                     <button type="submit" class="btn btn-danger submit">submit</button>
                 </form>
             </div>
         </div>
     </div>
+    <script src="text/javascript">
+        $("submit").on("click", function (event) {
+            event.preventDefault();
+            var newReservation = {
+                name: $("#reserve_name").val().trim(),
+                phone: $("#reserve_phone").val().trim(),
+                email: $("#reserve_email").val().trim(),
+                ID: $("#reserve_ID").val().trim()
+            };
+            var currentURL = window.location.origin;
+
+            $.post(currentURL + "/api/reserve", newReservation, function (data) {
+                if (data == true) {
+                    alert("reservation successful")
+                } else {
+                    alert("Waitlisted")
+                }
+                $("#reserve_name").val(" ")
+                $("#reserve_phone").val(" ")
+                $("#reserve_email").val(" ")
+                $("#reserve_ID").val(" ")
+            })
+            return false
+        })
+    </script>
 </body>
 
 </html>
