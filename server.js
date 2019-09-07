@@ -1,24 +1,54 @@
-// Dependencies
-// =============================================================
+//Dependancies
+//=======================================================================
 var express = require("express");
 var path = require("path");
 
-// Sets up the Express App
-// =============================================================
+//Express App
+//=======================================================================
 var app = express();
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
-// Sets up the Express app to handle data parsing
+//Data Parsing
+//=======================================================================
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Basic route that sends the user first to the AJAX Page
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "home.html"));
+//Data (JSON)
+//=======================================================================
+var reservations = [
+    {
+        name: "Billy",
+        time: "5:30 PM",
+        date: "November 28th, 2019",
+        phone: "123-456-7891",
+    }
+]
+console.log(reservations);
+
+//Display home page
+//=======================================================================
+app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "home.html"));
 });
 
-// Starts the server to begin listening
-// =============================================================
-app.listen(PORT, function() {
-  console.log("App listening on PORT " + PORT);
+//Display all Reservations
+//=======================================================================
+app.get("/api/tables", function (req, res) {
+    return res.json(reservations);
+});
+
+//JSON Input
+//=======================================================================
+app.post("/api/reserve", function (req, res) {
+    var newReservation = req.body;
+    newReservation.name = newReservation.name.replace(/\s+/g, "").toLowerCase();
+    console.log(newReservation);
+    reservations.push(newReservation);
+    res.json(newReservation);
+});
+
+//Listening
+//=======================================================================
+app.listen(PORT, function () {
+    console.log("App listening on PORT" + PORT);
 });
